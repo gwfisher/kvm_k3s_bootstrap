@@ -1,0 +1,18 @@
+#cloud-config
+ssh_pwauth: True
+chpasswd:
+  list: |
+     root:M@ck3y242
+  expire: False
+users:
+  - name: wfisher
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBpV6C8n4XPvSXvF8mvoHSs20kR7PfnuRKwtcihFL5EA wfisher@vespasian.reality.dataforge.network
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+    groups: wheel
+packages:
+   - qemu-guest-agent
+runcmd:
+   - "dnf update"
+   - "curl -sfL https://get.k3s.io | sh -"
