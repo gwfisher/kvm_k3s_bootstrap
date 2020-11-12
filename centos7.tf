@@ -12,10 +12,10 @@ provider "libvirt" {
   uri = "qemu:///system"
 }
 
-resource "libvirt_volume" "rhel8-qcow2" {
-  name   = "rhel8-qcow2"
+resource "libvirt_volume" "centos7-qcow2" {
+  name   = "centos7-qcow2"
   pool   = "default"
-  source = "./images/rhel-8.3-x86_64-kvm.qcow2"
+  source = "./images/CentOS-7-x86_64-GenericCloud.qcow2
   format = "qcow2"
 }
 
@@ -29,8 +29,8 @@ resource "libvirt_cloudinit_disk" "commoninit" {
   pool           = "default"
 }
 
-resource "libvirt_domain" "domain-rhel8" {
-  name   = "rhel8-terraform"
+resource "libvirt_domain" "domain-centos7" {
+  name   = "centos7-terraform"
   memory = "512"
   vcpu   = 1
 
@@ -53,7 +53,7 @@ resource "libvirt_domain" "domain-rhel8" {
   }
 
   disk {
-    volume_id = libvirt_volume.rhel8-qcow2.id
+    volume_id = libvirt_volume.centos7-qcow2.id
   }
 
   graphics {

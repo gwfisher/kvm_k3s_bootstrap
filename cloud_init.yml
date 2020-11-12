@@ -11,10 +11,6 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     shell: /bin/bash
     groups: wheel
-packages:
-   - qemu-guest-agent
-   - podman
-   - podman-docker
 runcmd:
-   - "dnf update"
+   - yum -y install container-tools podman podman-docker container-selinux selinux-police-base
    - "curl -sfL https://get.k3s.io | sh -"
