@@ -2,7 +2,7 @@
 ssh_pwauth: True
 chpasswd:
   list: |
-     root:M@ck3y242
+     root:ChangeMe
   expire: False
 users:
   - name: wfisher
@@ -13,6 +13,8 @@ users:
     groups: wheel
 packages:
    - qemu-guest-agent
+   - podman
+   - podman-docker
 runcmd:
    - "dnf update"
    - "curl -sfL https://get.k3s.io | sh -"
