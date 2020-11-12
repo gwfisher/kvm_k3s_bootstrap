@@ -15,7 +15,7 @@ provider "libvirt" {
 resource "libvirt_volume" "centos7-qcow2" {
   name   = "centos7-qcow2"
   pool   = "default"
-  source = "./images/CentOS-7-x86_64-GenericCloud.qcow2
+  source = "./images/CentOS-7-x86_64-GenericCloud.qcow2"
   format = "qcow2"
 }
 
@@ -38,6 +38,7 @@ resource "libvirt_domain" "domain-centos7" {
 
   network_interface {
     network_name = "default"
+    wait_for_lease = true
   }
 
   console {
@@ -62,4 +63,8 @@ resource "libvirt_domain" "domain-centos7" {
     autoport    = true
   }
 }
+
+output "ip" {
+    value = libvirt_domain.domain-centos7.network_interface.0.addresses.0
+  }
 
