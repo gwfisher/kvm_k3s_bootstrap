@@ -8,6 +8,7 @@ terraform {
   }
 }
 
+# Pretty standard libvirt setup of domain
 provider "libvirt" {
   uri = "qemu:///system"
 }
@@ -19,6 +20,7 @@ resource "libvirt_volume" "centos7-qcow2" {
   format = "qcow2"
 }
 
+#Bootstrap off cloud-init. Change root password, and add meeeeeee
 data "template_file" "user_data" {
   template = file("${path.module}/cloud_init.yml")
 }
@@ -36,7 +38,9 @@ resource "libvirt_domain" "domain-centos7" {
 
   cloudinit = libvirt_cloudinit_disk.commoninit.id
 
+  # stupid networking. It looses it's mac address if you don't add one. The provider is kinda unstable.
   network_interface {
+    mac = "52:54:00:6c:3c:02"
     network_name = "default"
     wait_for_lease = true
   }
@@ -62,7 +66,8 @@ resource "libvirt_domain" "domain-centos7" {
     listen_type = "address"
     autoport    = true
   }
-
+  
+  # The meaty part. Provisions podman and adds amazee app1 to k3s
   provisioner "file" {
     source      = "./scripts/provision.sh"
     destination = "/tmp/provision.sh"
@@ -74,6 +79,7 @@ resource "libvirt_domain" "domain-centos7" {
     }
   }
 
+  # Make app1 a tar-ball. Kinda hacky, but it works
   provisioner "local-exec" {
     command = "tar czvf app1.tar.gz ./app1"
   }
