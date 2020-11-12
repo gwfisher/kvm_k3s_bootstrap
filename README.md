@@ -1,3 +1,4 @@
+
 ________________
 < let's have fun >
  ----------------
@@ -18,6 +19,7 @@ This uses:
 * k3s - I just discovered this. I was using minikube, but k3s is so much more fun and flexible
 * bash - cuz everyone loves bash, and ansible is overkill for provisioning.
 * libvirt - I love KVWM for private cloud work. Otherwise it's AWS. Because let's face it, Google is crap.
+* traefik - This interests me. I'm more an HA-Proxy man myself
 
 I like K.I.S.S (keep it simple smartass)
 

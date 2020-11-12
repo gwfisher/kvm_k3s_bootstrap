@@ -9,4 +9,6 @@ cd /tmp
 tar xvf app1.tar.gz
 cd /tmp/app1
 sudo podman build --tag amazee-app1 .
-sudo /usr/local/bin/kubectl apply -f app1.yml
+sudo /usr/local/bin/kubectl apply -f /tmp/app1/app.yml
+
+# Time for a smoke break ()____)__________@ - Yes, I kinda do ASCII art. Kinda
