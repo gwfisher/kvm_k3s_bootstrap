@@ -31,8 +31,8 @@ resource "libvirt_cloudinit_disk" "commoninit" {
 
 resource "libvirt_domain" "domain-centos7" {
   name   = "centos7-terraform"
-  memory = "512"
-  vcpu   = 1
+  memory = "1024"
+  vcpu   = 2
 
   cloudinit = libvirt_cloudinit_disk.commoninit.id
 
@@ -62,9 +62,33 @@ resource "libvirt_domain" "domain-centos7" {
     listen_type = "address"
     autoport    = true
   }
+
+  provisioner "file" {
+    source      = "./scripts/provision.sh"
+    destination = "/tmp/provision.sh"
+    connection {
+      host     = libvirt_domain.domain-centos7.network_interface.0.addresses.0
+      type     = "ssh"
+      user     = "wfisher"
+      timeout = "1m"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/provision.sh",
+      "sudo /tmp/provision.sh"
+    ]
+    connection {
+      host     = libvirt_domain.domain-centos7.network_interface.0.addresses.0
+      type     = "ssh"
+      user     = "wfisher"
+      timeout = "1m"
+    }
+  }
 }
 
 output "ip" {
     value = libvirt_domain.domain-centos7.network_interface.0.addresses.0
-  }
+}
 
