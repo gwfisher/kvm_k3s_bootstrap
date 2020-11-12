@@ -1,0 +1,9 @@
+version: '2.3'
+services:
+  app1:
+    command: nodejs app.js
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+        - 3000:3000

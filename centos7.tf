@@ -70,7 +70,16 @@ resource "libvirt_domain" "domain-centos7" {
       host     = libvirt_domain.domain-centos7.network_interface.0.addresses.0
       type     = "ssh"
       user     = "wfisher"
-      timeout = "1m"
+    }
+  }
+
+  provisioner "file" {
+    source = "app1.tar.gz"
+    destination = "/tmp/app1.tar.gz"
+    connection {
+      host     = libvirt_domain.domain-centos7.network_interface.0.addresses.0
+      type     = "ssh"
+      user     = "wfisher"
     }
   }
 
@@ -83,9 +92,13 @@ resource "libvirt_domain" "domain-centos7" {
       host     = libvirt_domain.domain-centos7.network_interface.0.addresses.0
       type     = "ssh"
       user     = "wfisher"
-      timeout = "1m"
     }
   }
+
+  provisioner "local-exec" {
+    command = "tar czvf app1.tar.gz ./app1"
+  }
+
 }
 
 output "ip" {
